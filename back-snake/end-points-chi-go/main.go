@@ -103,7 +103,6 @@ func main() {
 				render.Status(r, http.StatusCreated)
 				fmt.Printf("type: %T\n", res)
 				render.Render(w, r, NewScoreResponse(sc))
-				//render.Render(w, r, NewScoreResponse(res))
 
 			}
 
