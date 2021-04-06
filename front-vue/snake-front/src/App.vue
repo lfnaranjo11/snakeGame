@@ -3,7 +3,7 @@
     <v-card color="basil">
       <v-card-title class="text-center justify-center py-6">
         <h1 class="font-weight-bold display-3 basil--text">
-          BASiL
+          SNake
         </h1>
       </v-card-title>
 
