@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>Leaderboard</p>
     <v-container id="example-1">
       <v-row class="grey--text elevation-1">
         <v-col>Position</v-col>

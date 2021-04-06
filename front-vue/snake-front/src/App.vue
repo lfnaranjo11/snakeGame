@@ -1,37 +1,65 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center"></div>
-    </v-app-bar>
-    <v-main>
-      <ToolBar />
-      <v-row align="center" justify="center">
-        <v-col class="text-center" cols="12">
+    <v-card color="basil">
+      <v-card-title class="text-center justify-center py-6">
+        <h1 class="font-weight-bold display-3 basil--text">
+          BASiL
+        </h1>
+      </v-card-title>
+
+      <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+        <v-tab>
+          SinglePlayer
+        </v-tab>
+        <v-tab>
+          Multiplayer
+        </v-tab>
+        <v-tab>
+          LeaderBoard
+        </v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item>
           <Snake />
-        </v-col>
-        <v-col class="text-center" cols="12">
-          <Leaderboard />
-        </v-col>
-      </v-row>
-    </v-main>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card color="basil" flat>
+            <v-card-text></v-card-text>
+            <Multiplayer />
+          </v-card>
+        </v-tab-item>
+        <v-tab-item><Leaderboard /> </v-tab-item>
+      </v-tabs-items>
+    </v-card>
   </v-app>
 </template>
 
 <script>
-import ToolBar from './components/ToolBar';
 import Snake from './components/Snake';
 import Leaderboard from './components/Leaderboard';
+import Multiplayer from './components/Multiplayer';
 export default {
   name: 'App',
 
   components: {
-    ToolBar,
     Snake,
+    Multiplayer,
     Leaderboard,
   },
 
-  data: () => ({
+  data() {
+    return {
+      tab: null,
+    };
     //
-  }),
+  },
 };
 </script>
+<style>
+.basil {
+  background-color: #fffbe6 !important;
+}
+.basil--text {
+  color: #356859 !important;
+}
+</style>
