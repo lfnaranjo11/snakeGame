@@ -1,15 +1,19 @@
 <template>
   <div class="hello">
     <div @click="initializeGame" class="flex">
-      <a href="#1" class="btn">Initialize</a>
+      <a href="#1" class="btn">Start</a>
     </div>
     <ion-phaser v-bind:game.prop="game" v-bind:initialize.prop="initialize" />
+    <div v-if="finished"><PostScore :score="scoreX" /></div>
   </div>
 </template>
 <script>
 import Phaser from 'phaser';
-
+import PostScore from './PostScore';
 export default {
+  components: {
+    PostScore,
+  },
   data() {
     var snake;
     var food;
@@ -18,9 +22,14 @@ export default {
     var DOWN = 1;
     var LEFT = 2;
     var RIGHT = 3;
+    var score = 0;
+    var scoreText;
+    var that = this;
 
     return {
-      initialize: false,
+      finished: false,
+      initialize: true,
+      scoreX: 0,
       game: {
         width: 640,
         height: 480,
@@ -34,6 +43,10 @@ export default {
             this.load.image('food', 'assets/games/snake/food.png');
           },
           create() {
+            scoreText = this.add.text(16, 16, 'score: 0', {
+              fontSize: '32px',
+              fill: '#000',
+            });
             var Food = new Phaser.Class({
               Extends: Phaser.GameObjects.Image,
 
@@ -50,6 +63,8 @@ export default {
                 var x = Phaser.Math.Between(0, 39);
                 var y = Phaser.Math.Between(0, 29);
                 this.setPosition(x * 16, y * 16);
+                score += 10;
+                scoreText.setText('Score: ' + score);
               },
             });
 
@@ -60,7 +75,7 @@ export default {
                 this.head = this.body.create(x * 16, y * 16, 'body');
                 this.head.setOrigin(0);
                 this.alive = true;
-                this.speed = 100;
+                this.speed = 150;
                 this.tail = new Phaser.Geom.Point(x, y);
                 this.moveTime = 0;
                 this.heading = RIGHT;
@@ -146,12 +161,13 @@ export default {
                 );
                 if (hitBody) {
                   this.alive = false;
+                  /*this method should call a new component*/
+                  that.finished = true;
+                  that.scoreX = score;
 
                   return false;
                 } else {
-                  //  Update the timer ready for the next movement
                   this.moveTime = time + this.speed;
-
                   return true;
                 }
               },
