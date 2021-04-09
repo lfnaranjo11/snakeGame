@@ -36,8 +36,11 @@
             appendLog(item);
           };
           conn.onmessage = function (evt) {
+            console.log(typeof evt.data);
+            console.log(evt.data);
+            console.log(evt);
             var messages = evt.data.split('\n');
-
+            console.log(typeof evt.data);
             for (var i = 0; i < messages.length; i++) {
               var item = document.createElement('div');
               item.innerText = messages[i];

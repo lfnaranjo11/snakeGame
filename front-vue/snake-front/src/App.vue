@@ -9,10 +9,10 @@
 
       <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
         <v-tab>
-          SinglePlayer
+          Multiplayer
         </v-tab>
         <v-tab>
-          Multiplayer
+          SinglePlayer
         </v-tab>
         <v-tab>
           LeaderBoard
@@ -20,14 +20,16 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          <Snake />
+          <Menu />
         </v-tab-item>
         <v-tab-item>
           <v-card color="basil" flat>
             <v-card-text></v-card-text>
-            <Multiplayer />
+            <Menu />
           </v-card>
         </v-tab-item>
+        <v-tab-item> <Snake /></v-tab-item>
+
         <v-tab-item><Leaderboard /> </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -37,13 +39,13 @@
 <script>
 import Snake from './components/Snake';
 import Leaderboard from './components/Leaderboard';
-import Multiplayer from './components/Multiplayer';
+import Menu from './components/Menu';
 export default {
   name: 'App',
 
   components: {
+    Menu,
     Snake,
-    Multiplayer,
     Leaderboard,
   },
 

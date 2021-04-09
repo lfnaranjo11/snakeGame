@@ -52,11 +52,15 @@ func (h *Hub) run() {
 				fmt.Println(err)
 				return
 			}
-			client.send <- []byte("current players")
+			fmt.Println(string(current_players))
+			client.send <- []byte("welcome")
+			client.send <- []byte("current_players")
 			client.send <- current_players
+			//client.send <- []byte("you")
+			//client.send <- newplayer
 			for client := range h.clients {
 
-				client.send <- []byte("new Player ")
+				client.send <- []byte("newPlayer")
 				client.send <- newplayer
 
 			}

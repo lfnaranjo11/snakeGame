@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -65,7 +66,8 @@ func newClient(hub *Hub, conn *websocket.Conn) *Client {
 	if err != nil {
 		log.Fatal(err)
 	}
-	client.PlayerId = string(out)
+	out_temp := strings.TrimSuffix(string(out), "\n")
+	client.PlayerId = out_temp
 	client.X = rand.Intn(20)
 	client.Y = rand.Intn(20)
 
