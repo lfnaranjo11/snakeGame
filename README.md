@@ -13,7 +13,8 @@ this is a snakegame
 * ion-phaser/core: vue and phaser adapter https://github.com/proyecto26/ion-phaser
 * vuetify: material design for vue
 
-how to use it?
+
+## how to run it locally?
 
 deploy locally
 1)follow the guide in https://www.cockroachlabs.com/docs/stable/secure-a-cluster.html to create a local cockroachdb cluster
