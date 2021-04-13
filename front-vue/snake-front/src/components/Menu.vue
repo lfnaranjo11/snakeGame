@@ -14,8 +14,7 @@ export default {
     var RIGHT = 3;
     var myId;
     var players = [];
-
-    //var cursors;
+    var cursors;
 
     return {
       initialize: true,
@@ -33,6 +32,7 @@ export default {
           },
           create() {
             var theScene = this;
+            this.input.mouse.disableContextMenu();
 
             var Snake = new Phaser.Class({
               initialize: function Snake(scene, x, y, id, texture) {
@@ -69,6 +69,7 @@ export default {
               faceUp: function() {
                 if (this.direction === LEFT || this.direction === RIGHT) {
                   this.heading = UP;
+                  return true;
                 }
               },
 
@@ -127,7 +128,7 @@ export default {
                 return true;
               },
             });
-            this.add.text(1, 1).setText('getting to know you');
+            this.add.text(1, 1).setText('clic to start game');
             this.players = this.add.group();
             this.socket = new WebSocket('ws://localhost:3331/ws');
             this.socket.onopen = () => {
@@ -148,7 +149,6 @@ export default {
                 var currentPlayers = JSON.parse(tipo[2]);
                 you = JSON.parse(tipo[4]);
                 myId = you.playerid;
-                // new Snake(theScene, you.x, you.y, you.playerid, 'me');
                 for (var key in currentPlayers) {
                   var text = key === myId ? 'me' : 'otherPlayer';
 
@@ -170,21 +170,48 @@ export default {
                 );
               } else if (tipo[0] === 'updatePlayer') {
                 console.log('recibi un update player');
-                //  var player = JSON.parse(tipo[1]);
+                console.log(tipo[1]);
+                try {
+                  var sneaky = JSON.parse(tipo[1]);
+
+                  players.forEach((px) => {
+                    if (px.id === sneaky.playerid) {
+                      px.faceUp();
+                    }
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
               }
             };
-            //  cursors = this.input.keyboard.createCursorKeys();
+            cursors = this.input.keyboard.createCursorKeys();
           },
 
           update(time) {
             this.add.text(1, 1).setText(myId);
+            var newObject = {};
+            newObject.playerid = myId;
 
-            /*  if (cursors.left.isDown) {
-            } else if (cursors.right.isDown) {
-            } else if (cursors.up.isDown) {
-            } else if (cursors.down.isDown) {
-            }*/
-            players.forEach((px) => px.update(time));
+            //  console.log(JSON.stringify(newObject));
+
+            if (cursors.up.isDown) {
+              console.log('hello');
+
+              players.forEach((px) => {
+                console.log('hello in for');
+                console.log(px.id);
+                console.log(myId);
+                if (px.id === myId && px.faceUp(time)) {
+                  console.log('hello in if');
+
+                  this.socket.send('updatePlayer\n');
+                  this.socket.send(JSON.stringify(newObject));
+                }
+              });
+            }
+            players.forEach((px) => {
+              px.update(time);
+            });
           },
         },
       },
